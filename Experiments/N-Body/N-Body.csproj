@@ -9,8 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="GUI\GUIs\" />
     <Folder Include="Render\" />
+  </ItemGroup>
+
+  <ItemGroup>
   </ItemGroup>
 
 </Project>

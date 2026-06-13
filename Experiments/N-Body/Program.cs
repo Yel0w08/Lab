@@ -1,5 +1,17 @@
-﻿using N_Body.Models;
+﻿using N_Body.GUI.GUIs;
+using N_Body.Models;
+using System.Reflection;
 
-Console.WriteLine("Hello, World!");
+
+ConsoleTUI _consoleUI = new ConsoleTUI();
+
+_consoleUI.Render();
+
+while (true) //infitite loop for test
+{
+    _consoleUI.Render();
+
+}
 
 
+Console.ReadLine();

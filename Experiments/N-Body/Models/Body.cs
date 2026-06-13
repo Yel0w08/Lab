@@ -20,6 +20,7 @@ namespace N_Body.Models
             public double Y;
             public double Z;
         public double rayon;
+        public double r;
 
     }
 
