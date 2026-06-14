@@ -7,7 +7,7 @@ public class Simulation
     public Simulation()
     {
         Bodies = new List<Body>();
-        Bodies.Add(new Body { name = "Star", mass = 1e32, X = 0, Y = 0, Z = 0 });
+        Bodies.Add(new Body { name = "Star", mass = 1e32, X = 0, Y = 0, Z = 0, colorSeed = 0.5f });
 
         for (int i = 0; i < 20; i++)
         {
@@ -21,6 +21,7 @@ public class Simulation
                 vX = (random.NextDouble() - 0.5) * 1e3,
                 vY = (random.NextDouble() - 0.5) * 1e3,
                 vZ = (random.NextDouble() - 0.5) * 1e3,
+                colorSeed = (float)random.NextDouble(),
             });
         }
     }
@@ -36,6 +37,7 @@ public class Simulation
             vX = (random.NextDouble() - 0.5) * 1e3,
             vY = (random.NextDouble() - 0.5) * 1e3,
             vZ = (random.NextDouble() - 0.5) * 1e3,
+            colorSeed = (float)random.NextDouble(),
         });
 
     }

@@ -24,6 +24,7 @@ namespace N_Body.Models
         public double aX;
         public double aY;
         public double aZ;
+        public float colorSeed;
 
     }
 
