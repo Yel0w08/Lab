@@ -141,6 +141,7 @@ namespace N_Body.Render
             _window.Render += (deltaTime) =>
             {
 
+
                 _gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
                 _calc.CalculateForces(_simulation.Bodies);
@@ -205,7 +206,11 @@ namespace N_Body.Render
 
                 for (int i = 0; i < _simulation.Bodies.Count; i++)
                 {
-                    float massScale = (float)(System.Math.Log10(_simulation.Bodies[i].mass) - 23) / 10f;
+                    float massScale = System.Math.Clamp((float)(System.Math.Log10(_simulation.Bodies[i].mass) - 23) / 10f,0f,1f);
+
+                    _gl.Uniform1(_uMass, massScale);
+
+                    _gl.Uniform1(_uMass, massScale);
                     var model = Matrix4X4.CreateScale(massScale);
                     _gl.UniformMatrix4(_uModel, 1, false, ref model.Row1.X);
 
@@ -224,11 +229,16 @@ namespace N_Body.Render
                 {
                     for (int i = 0; i < NumberOfBodyToAdd - prev; i++)
                         _simulation.AddRandomBody();
+                    Console.WriteLine(
+        $"mass={_simulation.Bodies[i].mass:E2} scale={massScale}"
+    );
+
                 }
                 else if (NumberOfBodyToAdd < prev)
                 {
                     for (int i = 0; i < prev - NumberOfBodyToAdd; i++)
                         _simulation.Bodies.RemoveAt(_simulation.Bodies.Count - 1);
+
                 }
 
 
