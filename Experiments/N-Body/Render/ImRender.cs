@@ -1,7 +1,9 @@
 ﻿using ImGuiNET;
 using N_Body.Math;
 using Silk.NET;
+using Silk.NET.Input;
 using Silk.NET.OpenGL;
+using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Windowing;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,8 @@ namespace N_Body.Render
             _calc = calc;
         }
 
+        private float _dt = 1000.0f;
+
         private GL _gl;
         private uint _vao;
         private uint _vbo;
@@ -26,7 +30,8 @@ namespace N_Body.Render
         private IWindow _window;
         private Simulation _simulation;
         private BodyPotitionCalculators _calc;
-
+        private ImGuiController _imguiController;
+        private IInputContext _input;
         public void Initalize()
         {
 
@@ -64,20 +69,23 @@ namespace N_Body.Render
 
                 _vao = _gl.GenVertexArray();
                 _vbo = _gl.GenBuffer();
+                _input = _window.CreateInput();
 
+
+                _imguiController = new ImGuiController(_gl, _window, _input);
 
             };
 
-            _window.Render += (dt) =>
+            _window.Render += (deltaTime) =>
             {
                 _gl.Clear(ClearBufferMask.ColorBufferBit);
 
                 _calc.CalculateForces(_simulation.Bodies);
-                _calc.UpdatePositions(_simulation.Bodies, dt);
+                _calc.UpdatePositions(_simulation.Bodies, _dt);
                 Console.Clear();
                
 
-                Console.WriteLine($"Star X: {_simulation.Bodies[0].X:F2} \ncool star x : {_simulation.Bodies[1].X:F2} ");
+                Console.WriteLine($"deltatime set at {_dt}");
 
 
                 float[] positions = new float[_simulation.Bodies.Count * 2];
@@ -102,8 +110,16 @@ namespace N_Body.Render
 
                 _gl.Enable(EnableCap.ProgramPointSize);
 
+                _imguiController.Update((float)deltaTime);
+
+
                 _gl.DrawArrays(PrimitiveType.Points, 0, (uint)_simulation.Bodies.Count);
 
+                ImGui.Begin("Controls");
+                ImGui.SliderFloat("Speed", ref _dt, 0.001f, 10000.0f);
+                ImGui.End();
+
+                _imguiController.Render();
 
 
             };
