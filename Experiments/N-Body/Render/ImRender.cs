@@ -102,7 +102,7 @@ namespace N_Body.Render
                 float[] positions = new float[_simulation.Bodies.Count * 2];
                 for (int i = 0; i < _simulation.Bodies.Count; i++)
                 {
-                    float scale = 1e11f;
+                    float scale = _scale;
                     positions[i * 2] = (float)(_simulation.Bodies[i].X / scale);
                     positions[i * 2 + 1] = (float)(_simulation.Bodies[i].Y / scale);
                 }
