@@ -2,51 +2,24 @@
 
 in vec3 vNormal;
 in vec3 vFragPos;
+in float vMass;
+in float vColorSeed;
 
 out vec4 FragColor;
 
-uniform float uMass;
-uniform float uColorSeed;
 uniform vec3 uViewPos;
-
-vec3 starColor(float t)
-{
-    if (t < 0.25)
-        return mix(
-            vec3(1.0, 0.25, 0.15),
-            vec3(1.0, 0.55, 0.15),
-            t / 0.25);
-
-    if (t < 0.5)
-        return mix(
-            vec3(1.0, 0.55, 0.15),
-            vec3(1.0, 0.95, 0.4),
-            (t - 0.25) / 0.25);
-
-    if (t < 0.75)
-        return mix(
-            vec3(1.0, 0.95, 0.4),
-            vec3(1.0, 1.0, 0.95),
-            (t - 0.5) / 0.25);
-
-    return mix(
-        vec3(1.0, 1.0, 0.95),
-        vec3(0.6, 0.8, 1.0),
-        (t - 0.75) / 0.25);
-}
 
 vec3 mainSequenceColor(float mass, float seed)
 {
-    float offset = (seed - 0.5) * 0.3;
-    float t = clamp(mass + offset, 0.0, 1.0);
-    return starColor(t);
+    float t = clamp(mass + (seed - 0.5) * 0.06, 0.0, 1.0);
+    return mix(vec3(1.0, 0.55, 0.15), vec3(0.3, 0.5, 1.0), t);
 }
 
 void main()
 {
-    float mass = clamp(uMass, 0.0, 1.0);
+    float mass = clamp(vMass, 0.0, 1.0);
 
-    vec3 baseColor = mainSequenceColor(mass, uColorSeed);
+    vec3 baseColor = mainSequenceColor(mass, vColorSeed);
 
     vec3 normal = normalize(vNormal);
     vec3 lightDir = normalize(-vFragPos);

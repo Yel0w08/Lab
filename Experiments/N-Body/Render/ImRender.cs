@@ -43,31 +43,9 @@ namespace N_Body.Render
         private uint _ebo;
         private float[] _sphereVertices;
         private uint[] _sphereIndices;
-        private int _uPosition;
-        private int NumberOfBodyToAdd = 1;
-        private int _uMass;
-        private int _uModel;
         private int _uViewPos;
-        private int _uColorSeed;
-
-        // bloom
-        private uint _hdrFbo;
-        private uint _hdrColorTex;
-        private uint _hdrDepthRbo;
-        private uint _brightFbo;
-        private uint _brightTex;
-        private uint _blurPingFbo;
-        private uint _blurPingTex;
-        private uint _blurPongFbo;
-        private uint _blurPongTex;
-        private uint _quadVao;
-        private uint _quadVbo;
-        private uint _bloomProgram;
-        private uint _brightProgram;
-        private uint _blurProgram;
-        private int _bloomULocation;
-        private float _bloomIntensity = 0f;
-        private float _bloomThreshold = 0f;
+        private int NumberOfBodyToAdd = 1;
+        private uint _instanceVbo;
 
         public void Initalize()
         {
@@ -87,7 +65,7 @@ namespace N_Body.Render
                 _gl = GL.GetApi(_window);
 
                 _gl.Enable(EnableCap.DepthTest);
-                _gl.Enable(EnableCap.Multisample);
+                _gl.Enable(EnableCap.ProgramPointSize);
                 _gl.ClearColor(0, 0, 0, 1);
 
                 string vertSrc = File.ReadAllText("Shaders/body.vert");
@@ -119,8 +97,8 @@ namespace N_Body.Render
                 _vao = _gl.GenVertexArray();
                 _vbo = _gl.GenBuffer();
 
-                _sphereVertices = SphereGnenerator.Generate(0.15f, 16);
-                _sphereIndices = SphereGnenerator.GenerateIndices(16);
+                _sphereVertices = SphereGnenerator.Generate(0.15f, 8);
+                _sphereIndices = SphereGnenerator.GenerateIndices(8);
 
                 _ebo = _gl.GenBuffer();
 
@@ -133,35 +111,39 @@ namespace N_Body.Render
                 _gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
                 _gl.EnableVertexAttribArray(0);
 
+                // instance buffer
+                _instanceVbo = _gl.GenBuffer();
+                _gl.BindBuffer(BufferTargetARB.ArrayBuffer, _instanceVbo);
+                unsafe { _gl.BufferData(BufferTargetARB.ArrayBuffer, 0, null, BufferUsageARB.DynamicDraw); }
+
+                _gl.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+                _gl.EnableVertexAttribArray(1);
+                _gl.VertexAttribDivisor(1, 1);
+
+                _gl.VertexAttribPointer(2, 1, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+                _gl.EnableVertexAttribArray(2);
+                _gl.VertexAttribDivisor(2, 1);
+
+                _gl.VertexAttribPointer(3, 1, VertexAttribPointerType.Float, false, 6 * sizeof(float), 4 * sizeof(float));
+                _gl.EnableVertexAttribArray(3);
+                _gl.VertexAttribDivisor(3, 1);
+
+                _gl.VertexAttribPointer(4, 1, VertexAttribPointerType.Float, false, 6 * sizeof(float), 5 * sizeof(float));
+                _gl.EnableVertexAttribArray(4);
+                _gl.VertexAttribDivisor(4, 1);
+
                 _input = _window.CreateInput();
-
-                _uPosition = _gl.GetUniformLocation(_program, "uPosition");
-
-
 
                 _input.Mice[0].Scroll += (mouse, wheel) =>
                 {
                     _camDistance *= wheel.Y > 0 ? 0.8f : 1.2f;
                 };
 
-                //_input.Mice[0].MouseMove += (mouse, delta) =>
-                //{
-                //    if (mouse.IsButtonPressed(MouseButton.Right))
-                //    {
-                //        _camAngleY += delta.X * 0.01f;
-                //        _camAngleX += delta.Y * 0.01f;
-                //    }
-                //};
-                _uModel = _gl.GetUniformLocation(_program, "uModel");
-                _uMass = _gl.GetUniformLocation(_program, "uMass");
-                _uColorSeed = _gl.GetUniformLocation(_program, "uColorSeed");
                 _uViewPos = _gl.GetUniformLocation(_program, "uViewPos");
                 _uView = _gl.GetUniformLocation(_program, "uView");
                 _uProjection = _gl.GetUniformLocation(_program, "uProjection");
                 _imguiController = new ImGuiController(_gl, _window, _input);
                 NumberOfBodyToAdd = _simulation.Bodies.Count;
-
-                InitBloom();
             };
 
             _window.Render += (deltaTime) =>
@@ -170,7 +152,6 @@ namespace N_Body.Render
                 _calc.CalculateForces(_simulation.Bodies);
                 _calc.UpdatePositions(_simulation.Bodies, _dt);
 
-                _gl.BindFramebuffer(FramebufferTarget.Framebuffer, _hdrFbo);
                 _gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
                 _gl.UseProgram(_program);
@@ -196,30 +177,33 @@ namespace N_Body.Render
                 _gl.UniformMatrix4(_uProjection, 1, false, ref proj.Row1.X);
                 _gl.UniformMatrix4(_uView, 1, false, ref view.Row1.X);
 
-
-                _gl.Enable(EnableCap.ProgramPointSize);
-
                 _gl.BindVertexArray(_vao);
                 _gl.Uniform3(_uViewPos, camX, camY, camZ);
 
-                for (int i = 0; i < _simulation.Bodies.Count; i++)
+                // build instance data
+                int count = _simulation.Bodies.Count;
+                float[] instanceData = new float[count * 6];
+                for (int i = 0; i < count; i++)
                 {
                     float massScale = System.Math.Clamp((float)(System.Math.Log10(_simulation.Bodies[i].mass) - 23) / 10f, 0f, 1f);
-
-                    _gl.Uniform1(_uMass, massScale);
-                    _gl.Uniform1(_uColorSeed, _simulation.Bodies[i].colorSeed);
                     float s = System.Math.Clamp(massScale, 0.02f, 1.0f);
-                    var model = Matrix4X4.CreateScale(s);
-                    _gl.UniformMatrix4(_uModel, 1, false, ref model.Row1.X);
-
-                    float px = (float)(_simulation.Bodies[i].X / _scale);
-                    float py = (float)(_simulation.Bodies[i].Y / _scale);
-                    float pz = (float)(_simulation.Bodies[i].Z / _scale);
-                    _gl.Uniform3(_uPosition, px, py, pz);
-                    unsafe { _gl.DrawElements(PrimitiveType.Triangles, (uint)_sphereIndices.Length, DrawElementsType.UnsignedInt, null); }
+                    instanceData[i * 6 + 0] = (float)(_simulation.Bodies[i].X / _scale);
+                    instanceData[i * 6 + 1] = (float)(_simulation.Bodies[i].Y / _scale);
+                    instanceData[i * 6 + 2] = (float)(_simulation.Bodies[i].Z / _scale);
+                    instanceData[i * 6 + 3] = s;
+                    instanceData[i * 6 + 4] = massScale;
+                    instanceData[i * 6 + 5] = _simulation.Bodies[i].colorSeed;
                 }
 
-                RenderBloom();
+                unsafe
+                {
+                    fixed (float* data = instanceData)
+                    {
+                        _gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(instanceData.Length * sizeof(float)), data, BufferUsageARB.DynamicDraw);
+                    }
+                }
+
+                unsafe { _gl.DrawElementsInstanced(PrimitiveType.Triangles, (uint)_sphereIndices.Length, DrawElementsType.UnsignedInt, null, (uint)count); }
 
                 _imguiController.Update((float)deltaTime);
 
@@ -259,181 +243,7 @@ namespace N_Body.Render
 
 
         }
-        public void Render()
-        {
 
-        }
-
-        private void InitBloom()
-        {
-            int w = 800;
-            int h = 600;
-
-            uint CreateTex(int width, int height)
-            {
-                uint tex = _gl.GenTexture();
-                _gl.BindTexture(TextureTarget.Texture2D, tex);
-                unsafe { _gl.TexImage2D((GLEnum)TextureTarget.Texture2D, 0, (int)InternalFormat.Rgba16f, (uint)width, (uint)height, 0, (GLEnum)PixelFormat.Rgba, (GLEnum)PixelType.Float, null); }
-                _gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                _gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-                _gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
-                _gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
-                return tex;
-            }
-
-            uint CreateFbo(uint tex)
-            {
-                uint fbo = _gl.GenFramebuffer();
-                _gl.BindFramebuffer(FramebufferTarget.Framebuffer, fbo);
-                _gl.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, tex, 0);
-                return fbo;
-            }
-
-            // main HDR FBO with depth
-            _hdrColorTex = CreateTex(w, h);
-            _hdrFbo = _gl.GenFramebuffer();
-            _gl.BindFramebuffer(FramebufferTarget.Framebuffer, _hdrFbo);
-            _gl.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, _hdrColorTex, 0);
-            _hdrDepthRbo = _gl.GenRenderbuffer();
-            _gl.BindRenderbuffer(RenderbufferTarget.Renderbuffer, _hdrDepthRbo);
-            _gl.RenderbufferStorage((GLEnum)RenderbufferTarget.Renderbuffer, (GLEnum)InternalFormat.DepthComponent24, (uint)w, (uint)h);
-            _gl.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, _hdrDepthRbo);
-
-            // bright FBO
-            _brightTex = CreateTex(w, h);
-            _brightFbo = CreateFbo(_brightTex);
-
-            // blur ping/pong FBOs
-            _blurPingTex = CreateTex(w, h);
-            _blurPingFbo = CreateFbo(_blurPingTex);
-            _blurPongTex = CreateTex(w, h);
-            _blurPongFbo = CreateFbo(_blurPongTex);
-
-            _gl.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-
-            // fullscreen quad
-            float[] quadVertices = {
-                -1f,  1f,  0f, 1f,
-                -1f, -1f,  0f, 0f,
-                 1f, -1f,  1f, 0f,
-                -1f,  1f,  0f, 1f,
-                 1f, -1f,  1f, 0f,
-                 1f,  1f,  1f, 1f,
-            };
-
-            _quadVao = _gl.GenVertexArray();
-            _quadVbo = _gl.GenBuffer();
-            _gl.BindVertexArray(_quadVao);
-            _gl.BindBuffer(BufferTargetARB.ArrayBuffer, _quadVbo);
-            _gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(quadVertices.Length * sizeof(float)), quadVertices, BufferUsageARB.StaticDraw);
-            _gl.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float), 0);
-            _gl.EnableVertexAttribArray(0);
-            _gl.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float), 2 * sizeof(float));
-            _gl.EnableVertexAttribArray(1);
-
-            // compile bloom shaders
-            string screenVert = File.ReadAllText("Shaders/screen.vert");
-
-            string brightSrc = File.ReadAllText("Shaders/bright.frag");
-            _brightProgram = CompileProgram(screenVert, brightSrc);
-
-            string blurSrc = File.ReadAllText("Shaders/blur.frag");
-            _blurProgram = CompileProgram(screenVert, blurSrc);
-
-            string bloomSrc = File.ReadAllText("Shaders/bloom.frag");
-            _bloomProgram = CompileProgram(screenVert, bloomSrc);
-
-            _bloomULocation = _gl.GetUniformLocation(_bloomProgram, "uBloomIntensity");
-        }
-
-        private uint CompileProgram(string vertSrc, string fragSrc)
-        {
-            uint vert = _gl.CreateShader(ShaderType.VertexShader);
-            _gl.ShaderSource(vert, vertSrc);
-            _gl.CompileShader(vert);
-
-            uint frag = _gl.CreateShader(ShaderType.FragmentShader);
-            _gl.ShaderSource(frag, fragSrc);
-            _gl.CompileShader(frag);
-
-            uint program = _gl.CreateProgram();
-            _gl.AttachShader(program, vert);
-            _gl.AttachShader(program, frag);
-            _gl.LinkProgram(program);
-
-            _gl.DeleteShader(vert);
-            _gl.DeleteShader(frag);
-
-            return program;
-        }
-
-        private void RenderBloom()
-        {
-            int w = 800;
-            int h = 600;
-            float bloomIntensity = _bloomIntensity;
-            float threshold = _bloomThreshold;
-
-            _gl.BindVertexArray(_quadVao);
-            _gl.UseProgram(_brightProgram);
-
-            _gl.Uniform1(_gl.GetUniformLocation(_brightProgram, "uThreshold"), threshold);
-            _gl.ActiveTexture(TextureUnit.Texture0);
-            _gl.BindTexture(TextureTarget.Texture2D, _hdrColorTex);
-            _gl.Uniform1(_gl.GetUniformLocation(_brightProgram, "uScene"), 0);
-
-            _gl.BindFramebuffer(FramebufferTarget.Framebuffer, _brightFbo);
-            _gl.Clear(ClearBufferMask.ColorBufferBit);
-            unsafe { _gl.DrawArrays(PrimitiveType.Triangles, 0, 6); }
-
-            // ping-pong blur (2 iterations = 4 passes)
-            uint srcTex = _brightTex;
-            int blurUHorizontal = _gl.GetUniformLocation(_blurProgram, "uHorizontal");
-            int blurUTexelSize = _gl.GetUniformLocation(_blurProgram, "uTexelSize");
-            int blurUTexture = _gl.GetUniformLocation(_blurProgram, "uTexture");
-
-            _gl.UseProgram(_blurProgram);
-
-            for (int iter = 0; iter < 2; iter++)
-            {
-                // horizontal
-                _gl.BindFramebuffer(FramebufferTarget.Framebuffer, _blurPingFbo);
-                _gl.Clear(ClearBufferMask.ColorBufferBit);
-                _gl.ActiveTexture(TextureUnit.Texture0);
-                _gl.BindTexture(TextureTarget.Texture2D, srcTex);
-                _gl.Uniform1(blurUTexture, 0);
-                _gl.Uniform1(blurUHorizontal, 1);
-                _gl.Uniform2(blurUTexelSize, 1f / w, 1f / h);
-                unsafe { _gl.DrawArrays(PrimitiveType.Triangles, 0, 6); }
-
-                // vertical
-                _gl.BindFramebuffer(FramebufferTarget.Framebuffer, _blurPongFbo);
-                _gl.Clear(ClearBufferMask.ColorBufferBit);
-                _gl.ActiveTexture(TextureUnit.Texture0);
-                _gl.BindTexture(TextureTarget.Texture2D, _blurPingTex);
-                _gl.Uniform1(blurUHorizontal, 0);
-                _gl.Uniform2(blurUTexelSize, 1f / w, 1f / h);
-                unsafe { _gl.DrawArrays(PrimitiveType.Triangles, 0, 6); }
-
-                srcTex = _blurPongTex;
-            }
-
-            // composite to default framebuffer
-            _gl.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-            _gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            _gl.UseProgram(_bloomProgram);
-            _gl.Uniform1(_bloomULocation, bloomIntensity);
-
-            _gl.ActiveTexture(TextureUnit.Texture0);
-            _gl.BindTexture(TextureTarget.Texture2D, _hdrColorTex);
-            _gl.Uniform1(_gl.GetUniformLocation(_bloomProgram, "uScene"), 0);
-
-            _gl.ActiveTexture(TextureUnit.Texture1);
-            _gl.BindTexture(TextureTarget.Texture2D, srcTex);
-            _gl.Uniform1(_gl.GetUniformLocation(_bloomProgram, "uBloom"), 1);
-
-            unsafe { _gl.DrawArrays(PrimitiveType.Triangles, 0, 6); }
-        }
     }
 
 }
