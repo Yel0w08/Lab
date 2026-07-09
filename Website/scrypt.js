@@ -30,27 +30,14 @@ function fmtDate(d) {
 async function load() {
     loading.classList.add('show');
     try {
-        let data;
-        const res = await fetch('/api/experiments');
-        if (res.ok) {
-            data = await res.json();
-        } else {
-            throw new Error();
-        }
-        experiments = data;
+        const r = await fetch('data.json');
+        if (!r.ok) throw new Error();
+        const d = await r.json();
+        experiments = d.experiments;
         apply();
-        const sr = await fetch('/api/stats');
-        if (sr.ok) renderStats(await sr.json());
+        renderStats(d.stats);
     } catch (_) {
-        try {
-            const r = await fetch('data.json');
-            const d = await r.json();
-            experiments = d.experiments;
-            apply();
-            renderStats(d.stats);
-        } catch (_2) {
-            tbody.innerHTML = '<tr class="empty"><td colspan="6">failed to load experiments</td></tr>';
-        }
+        tbody.innerHTML = '<tr class="empty"><td colspan="6">failed to load experiments</td></tr>';
     }
     loading.classList.remove('show');
 }
