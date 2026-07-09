@@ -4,68 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yel0w's Lab</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav>
-        <div class="nav-inner">
-            <div class="nav-brand">
-                <span class="nav-logo">[Y]</span>
-                <span class="nav-title">Yel0w's Lab</span>
-            </div>
-            <div class="nav-stats" id="navStats"></div>
-        </div>
-    </nav>
 
-    <main>
-        <div class="toolbar">
-            <div class="search-group">
-                <input type="text" id="search" placeholder="grep experiments..." autocomplete="off">
-            </div>
-            <div class="filters">
-                <button class="filter active" data-filter="all">all</button>
-                <button class="filter" data-filter="Finished">finished</button>
-                <button class="filter" data-filter="InProgress">in progress</button>
-                <button class="filter" data-filter="Planned">planned</button>
-                <button class="filter" data-filter="Archived">archived</button>
-                <button class="filter" data-filter="Abandoned">abandoned</button>
+<div id="bg-grid"></div>
+
+<header>
+    <div class="h-left">
+        <span class="h-symbol">∑</span>
+        <div>
+            <h1>Yel0w's Lab</h1>
+            <span class="h-sub">experimental mathematics &amp; computation</span>
+        </div>
+    </div>
+    <div class="h-right" id="hStats"></div>
+</header>
+
+<main>
+    <div class="controls">
+        <div class="ctrl-left">
+            <div class="search-wrap">
+                <span class="search-prefix">$</span>
+                <input type="text" id="search" placeholder="grep experiments..." spellcheck="false">
             </div>
         </div>
-
-        <div class="table-wrap">
-            <table id="table">
-                <thead>
-                    <tr>
-                        <th class="col-name">experiment</th>
-                        <th class="col-status">status</th>
-                        <th class="col-lang">language</th>
-                        <th class="col-framework">framework</th>
-                        <th class="col-tags">tags</th>
-                        <th class="col-date">modified</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody"></tbody>
-            </table>
-        </div>
-
-        <div class="loading" id="loading">
-            <span class="loader"></span>
-            <span>Loading experiments...</span>
-        </div>
-    </main>
-
-    <div class="modal-overlay" id="modal">
-        <div class="modal">
-            <div class="modal-head">
-                <span class="modal-title" id="modalTitle"></span>
-                <button class="modal-close" id="modalClose">&times;</button>
-            </div>
-            <div class="modal-body" id="modalBody"></div>
+        <div class="ctrl-right">
+            <button class="filter-btn active" data-f="all">all</button>
+            <button class="filter-btn" data-f="Finished">finished</button>
+            <button class="filter-btn" data-f="InProgress">active</button>
+            <button class="filter-btn" data-f="Planned">planned</button>
+            <button class="filter-btn" data-f="Archived">archived</button>
+            <button class="filter-btn" data-f="Abandoned">dead</button>
         </div>
     </div>
 
-    <script src="scrypt.js"></script>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th data-sort="Name" class="s-n">experiment <span class="s-arrow"></span></th>
+                    <th data-sort="Status" class="s-s">status <span class="s-arrow"></span></th>
+                    <th data-sort="Language" class="s-l">language <span class="s-arrow"></span></th>
+                    <th data-sort="Framework" class="s-f">framework <span class="s-arrow"></span></th>
+                    <th data-sort="Tags" class="s-t">tags <span class="s-arrow"></span></th>
+                    <th data-sort="LastModified" class="s-d">modified <span class="s-arrow"></span></th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+
+    <div class="loader-wrap" id="loader">
+        <div class="lds"></div>
+        <span>loading...</span>
+    </div>
+</main>
+
+<div class="modal" id="modal">
+    <div class="m-backdrop" id="mBackdrop"></div>
+    <div class="m-dialog">
+        <div class="m-head">
+            <span class="m-title" id="mTitle"></span>
+            <button class="m-close" id="mClose">&times;</button>
+        </div>
+        <div class="m-body" id="mBody"></div>
+    </div>
+</div>
+
+<script src="scrypt.js"></script>
 </body>
 </html>

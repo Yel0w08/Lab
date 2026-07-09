@@ -19,13 +19,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: '3.x'
-      - name: Export database to JSON
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: ./Website/package-lock.json
+      - name: Install dependencies
         working-directory: ./Website
-        run: python export-data.py
+        run: npm ci
+      - name: Export DB to static JSON
+        working-directory: ./Website
+        run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
