@@ -2,3 +2,4 @@
 *.exe
 /Experiments/N-Body/obj
 /Experiments/N-Body/.vs
+/Manager/.vs

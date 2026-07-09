@@ -2,17 +2,10 @@
     "experiments": [
 
         {
-            "id": "experiment_001",
+            "id": "1",
             "name": "N-Body",
             "language": "C#",
-            "status": "in_progress"
-        },
-                
-        {
-            "id": "experiment_002",
-            "name": "Idk",
-            "language": "Idk",
-            "status": "Idk"
+            "status": 1
         }
 
     ]

@@ -1,0 +1,26 @@
+﻿using Eto.Forms;
+using Eto.Drawing;
+
+public class MainForm : Form
+{
+    public MainForm()
+    {
+        Title = "Lab Manager";
+        ClientSize = new Size(900, 600);
+
+        var addButton = new Button { Text = "Add Experiment" };
+
+        var grid = new GridView();
+
+        Content = new StackLayout
+        {
+            Padding = 10,
+            Spacing = 10,
+            Items =
+            {
+                addButton,
+                new StackLayoutItem(grid, true)
+            }
+        };
+    }
+}
