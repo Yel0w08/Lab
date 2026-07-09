@@ -1,80 +1,40 @@
 ﻿using System.Text.Json;
+using Manager.Data;
 using Manager.Models;
+using Manager.Services;
 
 namespace Manager.Services;
 
-public class SaveManager
+public static class DatabaseManager
 {
-    private readonly string _filePath;
-
-    public ExperimentDatabase Database { get; private set; } = new();
-
-    public SaveManager(string filePath)
+    public static ExperimentService CreateService()
     {
-        _filePath = filePath;
+        return new ExperimentService();
     }
 
-
-    public void Load()
+    public static void ImportFromJson(string jsonFilePath)
     {
-        if (!File.Exists(_filePath))
-        {
-            Database = new ExperimentDatabase();
-            Save();
+        if (!File.Exists(jsonFilePath))
             return;
-        }
 
-        string json = File.ReadAllText(_filePath);
+        var json = File.ReadAllText(jsonFilePath);
+        var oldDb = JsonSerializer.Deserialize<ExperimentDatabase>(json);
 
-        Database = JsonSerializer.Deserialize<ExperimentDatabase>(json)
-                   ?? new ExperimentDatabase();
-    }
+        if (oldDb?.Experiments is null || oldDb.Experiments.Count == 0)
+            return;
 
+        using var service = new ExperimentService();
 
-    public void Save()
-    {
-        string json = JsonSerializer.Serialize(
-            Database,
-            new JsonSerializerOptions
-            {
-                WriteIndented = true
-            });
-
-        File.WriteAllText(_filePath, json);
-    }
-
-
-    public void AddExperiment(Experiment experiment)
-    {
-        experiment.Id = GetNextId();
-        experiment.CreatedAt = DateTime.Now;
-        experiment.LastModified = DateTime.Now;
-
-        Database.Experiments.Add(experiment);
-
-        Save();
-    }
-
-
-    public void RemoveExperiment(int id)
-    {
-        var experiment = Database.Experiments
-            .FirstOrDefault(x => x.Id == id);
-
-        if (experiment != null)
+        foreach (var experiment in oldDb.Experiments)
         {
-            Database.Experiments.Remove(experiment);
-            Save();
+            experiment.Id = 0;
+            service.Add(experiment);
         }
     }
 
-
-    private int GetNextId()
+    private class ExperimentDatabase
     {
-        if (Database.Experiments.Count == 0)
-            return 1;
-
-        return Database.Experiments.Max(x => x.Id) + 1;
+        public int Version { get; set; } = 1;
+        public List<Experiment> Experiments { get; set; } = [];
     }
 }
-

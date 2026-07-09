@@ -2,15 +2,8 @@
 {
     partial class AddExperiments
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,12 +13,6 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             ExperminmentName = new TextBox();
@@ -40,7 +27,14 @@
             label4 = new Label();
             label5 = new Label();
             textBox1 = new TextBox();
-            label6 = new Label();
+            SaveButton = new Button();
+            CancelBtn = new Button();
+            NotesLabel = new Label();
+            NotesTextBox = new TextBox();
+            EngineLabel = new Label();
+            EngineTextBox = new TextBox();
+            ProjectPathLabel = new Label();
+            ProjectPathTextBox = new TextBox();
             SuspendLayout();
             // 
             // ExperminmentName
@@ -72,9 +66,9 @@
             label2.AutoSize = true;
             label2.Location = new Point(196, 38);
             label2.Name = "label2";
-            label2.Size = new Size(70, 15);
+            label2.Size = new Size(67, 15);
             label2.TabIndex = 3;
-            label2.Text = "Description ";
+            label2.Text = "Description";
             // 
             // label3
             // 
@@ -98,9 +92,9 @@
             framework.AutoSize = true;
             framework.Location = new Point(196, 96);
             framework.Name = "framework";
-            framework.Size = new Size(64, 15);
+            framework.Size = new Size(66, 15);
             framework.TabIndex = 6;
-            framework.Text = "framework";
+            framework.Text = "Framework";
             // 
             // ExperminmentFramework
             // 
@@ -112,6 +106,7 @@
             // 
             // ExperminmentStatus
             // 
+            ExperminmentStatus.DropDownStyle = ComboBoxStyle.DropDownList;
             ExperminmentStatus.FormattingEnabled = true;
             ExperminmentStatus.Location = new Point(4, 122);
             ExperminmentStatus.Name = "ExperminmentStatus";
@@ -123,9 +118,9 @@
             label4.AutoSize = true;
             label4.Location = new Point(196, 125);
             label4.Name = "label4";
-            label4.Size = new Size(38, 15);
+            label4.Size = new Size(39, 15);
             label4.TabIndex = 9;
-            label4.Text = "status";
+            label4.Text = "Status";
             // 
             // label5
             // 
@@ -144,22 +139,88 @@
             textBox1.Size = new Size(186, 23);
             textBox1.TabIndex = 11;
             // 
-            // label6
+            // SaveButton
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 5F);
-            label6.Location = new Point(192, 144);
-            label6.Name = "label6";
-            label6.Size = new Size(74, 10);
-            label6.TabIndex = 12;
-            label6.Text = "(separated by a coma)";
+            SaveButton.Location = new Point(69, 414);
+            SaveButton.Name = "SaveButton";
+            SaveButton.Size = new Size(75, 23);
+            SaveButton.TabIndex = 13;
+            SaveButton.Text = "Save";
+            SaveButton.UseVisualStyleBackColor = true;
+            SaveButton.Click += SaveButton_Click;
+            // 
+            // CancelBtn
+            // 
+            CancelBtn.Location = new Point(150, 414);
+            CancelBtn.Name = "CancelBtn";
+            CancelBtn.Size = new Size(75, 23);
+            CancelBtn.TabIndex = 14;
+            CancelBtn.Text = "Cancel";
+            CancelBtn.UseVisualStyleBackColor = true;
+            CancelBtn.Click += CancelButton_Click;
+            // 
+            // NotesLabel
+            // 
+            NotesLabel.AutoSize = true;
+            NotesLabel.Location = new Point(196, 184);
+            NotesLabel.Name = "NotesLabel";
+            NotesLabel.Size = new Size(38, 15);
+            NotesLabel.TabIndex = 16;
+            NotesLabel.Text = "Notes";
+            // 
+            // NotesTextBox
+            // 
+            NotesTextBox.Location = new Point(4, 180);
+            NotesTextBox.Multiline = true;
+            NotesTextBox.Name = "NotesTextBox";
+            NotesTextBox.Size = new Size(186, 60);
+            NotesTextBox.TabIndex = 15;
+            // 
+            // EngineLabel
+            // 
+            EngineLabel.AutoSize = true;
+            EngineLabel.Location = new Point(196, 250);
+            EngineLabel.Name = "EngineLabel";
+            EngineLabel.Size = new Size(43, 15);
+            EngineLabel.TabIndex = 18;
+            EngineLabel.Text = "Engine";
+            // 
+            // EngineTextBox
+            // 
+            EngineTextBox.Location = new Point(4, 246);
+            EngineTextBox.Name = "EngineTextBox";
+            EngineTextBox.Size = new Size(186, 23);
+            EngineTextBox.TabIndex = 17;
+            // 
+            // ProjectPathLabel
+            // 
+            ProjectPathLabel.AutoSize = true;
+            ProjectPathLabel.Location = new Point(196, 279);
+            ProjectPathLabel.Name = "ProjectPathLabel";
+            ProjectPathLabel.Size = new Size(71, 15);
+            ProjectPathLabel.TabIndex = 20;
+            ProjectPathLabel.Text = "Project Path";
+            // 
+            // ProjectPathTextBox
+            // 
+            ProjectPathTextBox.Location = new Point(4, 275);
+            ProjectPathTextBox.Name = "ProjectPathTextBox";
+            ProjectPathTextBox.Size = new Size(186, 23);
+            ProjectPathTextBox.TabIndex = 19;
             // 
             // AddExperiments
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(300, 450);
-            Controls.Add(label6);
+            Controls.Add(ProjectPathLabel);
+            Controls.Add(ProjectPathTextBox);
+            Controls.Add(EngineLabel);
+            Controls.Add(EngineTextBox);
+            Controls.Add(NotesLabel);
+            Controls.Add(NotesTextBox);
+            Controls.Add(CancelBtn);
+            Controls.Add(SaveButton);
             Controls.Add(textBox1);
             Controls.Add(label5);
             Controls.Add(label4);
@@ -172,14 +233,16 @@
             Controls.Add(ExperminmentDescritpion);
             Controls.Add(label1);
             Controls.Add(ExperminmentName);
-            FormBorderStyle = FormBorderStyle.SizableToolWindow;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "AddExperiments";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Add Experiment";
+            Load += AddExperiments_Load;
             ResumeLayout(false);
             PerformLayout();
         }
-
-        #endregion
 
         private TextBox ExperminmentName;
         private Label label1;
@@ -193,6 +256,13 @@
         private Label label4;
         private Label label5;
         private TextBox textBox1;
-        private Label label6;
+        private Button SaveButton;
+        private Button CancelBtn;
+        private Label NotesLabel;
+        private TextBox NotesTextBox;
+        private Label EngineLabel;
+        private TextBox EngineTextBox;
+        private Label ProjectPathLabel;
+        private TextBox ProjectPathTextBox;
     }
 }
