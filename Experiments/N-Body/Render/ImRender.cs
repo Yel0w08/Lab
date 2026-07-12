@@ -101,8 +101,8 @@ namespace N_Body.Render
                 _vao = _gl.GenVertexArray();
                 _vbo = _gl.GenBuffer();
 
-                _sphereVertices = SphereGnenerator.Generate(0.15f, 16);
-                _sphereIndices = SphereGnenerator.GenerateIndices(16);
+                _sphereVertices = SphereGnenerator.Generate(0.2f, 24);
+                _sphereIndices = SphereGnenerator.GenerateIndices(24);
 
                 _ebo = _gl.GenBuffer();
 
@@ -217,7 +217,7 @@ namespace N_Body.Render
                 for (int i = 0; i < count; i++)
                 {
                     float massScale = System.Math.Clamp((float)(System.Math.Log10(_simulation.Bodies[i].mass) - 23) / 10f, 0f, 1f);
-                    float s = System.Math.Clamp(massScale, 0.02f, 1.0f);
+                    float s = System.Math.Clamp(massScale, 0.05f, 1.0f);
                     instanceData[i * 6 + 0] = (float)(_simulation.Bodies[i].X / _scale);
                     instanceData[i * 6 + 1] = (float)(_simulation.Bodies[i].Y / _scale);
                     instanceData[i * 6 + 2] = (float)(_simulation.Bodies[i].Z / _scale);
