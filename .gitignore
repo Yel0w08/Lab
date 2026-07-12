@@ -1,8 +1,10 @@
 /Experiments/N-Body/bin
-*.exe
 /Experiments/N-Body/obj
 /Experiments/N-Body/.vs
 /Manager/.vs
 /Website/node_modules/
 /Website/data.json
 /Experiments/Test
+/Manager/obj
+/Manager/bin
+Manager.exe
