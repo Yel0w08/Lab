@@ -274,7 +274,6 @@ namespace N_Body.Render
 
 
         }
-
     }
 
 }
