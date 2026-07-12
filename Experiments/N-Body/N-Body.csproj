@@ -40,6 +40,7 @@
     <None Update="Shaders\screen.vert">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+
   </ItemGroup>
 
 </Project>

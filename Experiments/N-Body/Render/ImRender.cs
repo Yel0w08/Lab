@@ -8,6 +8,7 @@ using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Windowing;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime;
 using System.Text;
 using static Silk.NET.Core.Native.WinString;
@@ -35,7 +36,7 @@ namespace N_Body.Render
         private ImGuiController _imguiController;
         private IInputContext _input;
         private float _camDistance = 10.0f;
-        private float _camAngleX = 0.0f;
+        private float _camAngleX = 0.3f;
         private float _camAngleY = 0.0f;
         private float _scale = 1e11f;
         private int _uView;
@@ -46,6 +47,9 @@ namespace N_Body.Render
         private int _uViewPos;
         private int NumberOfBodyToAdd = 1;
         private uint _instanceVbo;
+
+        private bool _mouseDragging = false;
+        private Vector2 _lastMousePos;
 
         public void Initalize()
         {
@@ -97,8 +101,8 @@ namespace N_Body.Render
                 _vao = _gl.GenVertexArray();
                 _vbo = _gl.GenBuffer();
 
-                _sphereVertices = SphereGnenerator.Generate(0.15f, 8);
-                _sphereIndices = SphereGnenerator.GenerateIndices(8);
+                _sphereVertices = SphereGnenerator.Generate(0.15f, 16);
+                _sphereIndices = SphereGnenerator.GenerateIndices(16);
 
                 _ebo = _gl.GenBuffer();
 
@@ -111,7 +115,6 @@ namespace N_Body.Render
                 _gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
                 _gl.EnableVertexAttribArray(0);
 
-                // instance buffer
                 _instanceVbo = _gl.GenBuffer();
                 _gl.BindBuffer(BufferTargetARB.ArrayBuffer, _instanceVbo);
                 unsafe { _gl.BufferData(BufferTargetARB.ArrayBuffer, 0, null, BufferUsageARB.DynamicDraw); }
@@ -139,6 +142,35 @@ namespace N_Body.Render
                     _camDistance *= wheel.Y > 0 ? 0.8f : 1.2f;
                 };
 
+                _input.Mice[0].MouseDown += (mouse, button) =>
+                {
+                    if (button == MouseButton.Left)
+                    {
+                        _mouseDragging = true;
+                        _lastMousePos = mouse.Position;
+                    }
+                };
+
+                _input.Mice[0].MouseUp += (mouse, button) =>
+                {
+                    if (button == MouseButton.Left)
+                        _mouseDragging = false;
+                };
+
+                _input.Mice[0].MouseMove += (mouse, position) =>
+                {
+                    if (_mouseDragging)
+                    {
+                        float dx = position.X - _lastMousePos.X;
+                        float dy = position.Y - _lastMousePos.Y;
+                        _camAngleY -= dx * 0.005f;
+                        _camAngleX -= dy * 0.005f;
+                        if (_camAngleX < -MathF.PI / 2f + 0.01f) _camAngleX = -MathF.PI / 2f + 0.01f;
+                        if (_camAngleX > MathF.PI / 2f - 0.01f) _camAngleX = MathF.PI / 2f - 0.01f;
+                        _lastMousePos = position;
+                    }
+                };
+
                 _uViewPos = _gl.GetUniformLocation(_program, "uViewPos");
                 _uView = _gl.GetUniformLocation(_program, "uView");
                 _uProjection = _gl.GetUniformLocation(_program, "uProjection");
@@ -159,8 +191,8 @@ namespace N_Body.Render
                 var proj = Matrix4X4.CreatePerspectiveFieldOfView(
                     MathF.PI / 4f,
                     800f / 600f,
-                    0.1f,
-                    1000f
+                    0.01f,
+                    2000f
                 );
 
                 var camX = _camDistance * MathF.Sin(_camAngleY) * MathF.Cos(_camAngleX);
@@ -180,7 +212,6 @@ namespace N_Body.Render
                 _gl.BindVertexArray(_vao);
                 _gl.Uniform3(_uViewPos, camX, camY, camZ);
 
-                // build instance data
                 int count = _simulation.Bodies.Count;
                 float[] instanceData = new float[count * 6];
                 for (int i = 0; i < count; i++)
