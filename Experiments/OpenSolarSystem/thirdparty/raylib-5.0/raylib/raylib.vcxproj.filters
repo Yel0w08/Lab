@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\src\rcore.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\src\rmodels.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\src\rshapes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\src\rtext.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\src\rtextures.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\src\utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\src\raudio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\src\raylib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\src\rlgl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\src\raymath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\context.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\init.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\input.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\monitor.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\platform.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\vulkan.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\window.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\egl_context.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\osmesa_context.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\null_init.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\null_monitor.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\null_window.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\null_joystick.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\win32_module.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\win32_time.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\win32_thread.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\win32_init.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\win32_joystick.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\win32_monitor.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\win32_window.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\raylib\external\glfw\src\glfw.dir\$(Configuration)\wgl_context.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{AEF2F4CE-96C8-3687-B3A1-F3DB8A8C2082}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Libraries">
+      <UniqueIdentifier>{C69C728B-919D-3FF6-930A-BB014A883470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{E5062C3D-351D-335A-AC57-350C3A567595}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

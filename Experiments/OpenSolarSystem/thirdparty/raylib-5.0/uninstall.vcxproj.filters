@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="E:\Dev\Lab\Experiments\OpenSolarSystem\CMakeFiles\9392dd6ea02728b9fe148d2a8a6d38f8\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="E:\Dev\Lab\Experiments\OpenSolarSystem\thirdparty\raylib-5.0\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F62F41ED-ABCC-30FE-B397-60C851097119}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

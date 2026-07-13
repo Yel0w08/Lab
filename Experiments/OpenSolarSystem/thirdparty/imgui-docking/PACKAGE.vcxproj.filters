@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="E:\Dev\Lab\Experiments\OpenSolarSystem\CMakeFiles\88fb970185d6a49041508b30fa450f00\PACKAGE_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F62F41ED-ABCC-30FE-B397-60C851097119}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
