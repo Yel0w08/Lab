@@ -4,6 +4,7 @@ const Database = require('better-sqlite3');
 
 const DB_PATH = path.join(__dirname, '..', 'LabManager.db');
 const OUT_PATH = path.join(__dirname, 'data.json');
+const STATS_PATH = path.join(__dirname, 'api', 'stats');
 
 const db = new Database(DB_PATH, { readonly: true });
 const experiments = db.prepare('SELECT * FROM Experiments ORDER BY LastModified DESC').all();
@@ -22,5 +23,7 @@ const stats = {
     languages: Object.entries(languages).map(([Language, count]) => ({ Language, count }))
 };
 
+fs.mkdirSync(path.join(__dirname, 'api'), { recursive: true });
+fs.writeFileSync(STATS_PATH, JSON.stringify(stats));
 fs.writeFileSync(OUT_PATH, JSON.stringify({ experiments, stats }, null, 2));
-console.log(`Exported ${experiments.length} experiments to data.json`);
+console.log(`Exported ${experiments.length} experiments to data.json and api/stats`);
