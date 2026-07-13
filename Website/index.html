@@ -1,83 +1,97 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yel0w's Lab</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<header>
-    <div class="h-inner">
-        <div class="h-brand">
-            <span class="h-brace">{</span>
-            <div>
-                <h1>Yel0w's Lab</h1>
-                <div class="h-sub">research &middot; experiments &middot; computation</div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Yel0w's Lab</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital@1&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header>
+            <div class="h-inner">
+                <div class="h-brand">
+                    <span class="h-brace">{</span>
+                    <div>
+                        <h1>Yel0w's Lab</h1>
+                        <div class="h-sub">
+                            research &middot; experiments &middot; Dev
+                        </div>
+                    </div>
+                    <span class="h-brace">}</span>
+                </div>
+                <div class="h-stats" id="hStats">
+                    <div class="hs-item">
+                        <span class="hs-n" id="hsTotal">0</span
+                        ><span class="hs-l">total</span>
+                    </div>
+                </div>
             </div>
-            <span class="h-brace">}</span>
+        </header>
+
+        <main>
+            <div class="ctrl-bar">
+                <div class="ctrl-search">
+                    <span class="cs-prompt">λ</span>
+                    <input
+                        type="text"
+                        id="search"
+                        placeholder="search name, language, framework, tags..."
+                        spellcheck="false"
+                    />
+                    <button class="cs-clear" id="clearSearch">&times;</button>
+                </div>
+                <div class="ctrl-filters" id="filterRow">
+                    <button class="flt active" data-f="all">all</button>
+                    <button class="flt" data-f="Finished">finished</button>
+                    <button class="flt" data-f="InProgress">
+                        in&nbsp;progress
+                    </button>
+                    <button class="flt" data-f="Planned">planned</button>
+                    <button class="flt" data-f="Archived">archived</button>
+                    <button class="flt" data-f="Abandoned">dead</button>
+                </div>
+            </div>
+
+            <div class="tag-bar" id="tagBar"></div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="c-name">experiment</th>
+                            <th class="c-status">status</th>
+                            <th class="c-lang">lang</th>
+                            <th class="c-fw">framework</th>
+                            <th class="c-tags">tags</th>
+                            <th class="c-date">updated</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+
+            <div class="load-bar" id="loader">
+                <div class="lds"></div>
+                <span>querying database...</span>
+            </div>
+        </main>
+
+        <div class="modal" id="modal">
+            <div class="m-shade" id="mShade"></div>
+            <div class="m-box">
+                <div class="m-top">
+                    <span class="m-title" id="mTitle"></span>
+                    <button class="m-x" id="mX">&times;</button>
+                </div>
+                <div class="m-body" id="mBody"></div>
+            </div>
         </div>
-        <div class="h-stats" id="hStats">
-            <div class="hs-item"><span class="hs-n" id="hsTotal">0</span><span class="hs-l">total</span></div>
-        </div>
-    </div>
-</header>
 
-<main>
-    <div class="ctrl-bar">
-        <div class="ctrl-search">
-            <span class="cs-prompt">λ</span>
-            <input type="text" id="search" placeholder="search name, language, framework, tags..." spellcheck="false">
-            <button class="cs-clear" id="clearSearch">&times;</button>
-        </div>
-        <div class="ctrl-filters" id="filterRow">
-            <button class="flt active" data-f="all">all</button>
-            <button class="flt" data-f="Finished">finished</button>
-            <button class="flt" data-f="InProgress">in&nbsp;progress</button>
-            <button class="flt" data-f="Planned">planned</button>
-            <button class="flt" data-f="Archived">archived</button>
-            <button class="flt" data-f="Abandoned">dead</button>
-        </div>
-    </div>
-
-    <div class="tag-bar" id="tagBar"></div>
-
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th class="c-name">experiment</th>
-                    <th class="c-status">status</th>
-                    <th class="c-lang">lang</th>
-                    <th class="c-fw">framework</th>
-                    <th class="c-tags">tags</th>
-                    <th class="c-date">updated</th>
-                </tr>
-            </thead>
-            <tbody id="tbody"></tbody>
-        </table>
-    </div>
-
-    <div class="load-bar" id="loader">
-        <div class="lds"></div>
-        <span>querying database...</span>
-    </div>
-</main>
-
-<div class="modal" id="modal">
-    <div class="m-shade" id="mShade"></div>
-    <div class="m-box">
-        <div class="m-top">
-            <span class="m-title" id="mTitle"></span>
-            <button class="m-x" id="mX">&times;</button>
-        </div>
-        <div class="m-body" id="mBody"></div>
-    </div>
-</div>
-
-<script src="scrypt.js"></script>
-</body>
+        <script src="scrypt.js"></script>
+    </body>
 </html>
