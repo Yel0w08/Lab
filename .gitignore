@@ -8,3 +8,6 @@
 /Manager/obj
 /Manager/bin
 *.exe
+/Experiments/Cryptext/.vs
+/Experiments/Cryptext/bin
+/Experiments/Cryptext/obj
