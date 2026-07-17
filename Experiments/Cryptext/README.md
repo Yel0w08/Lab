@@ -1,45 +1,52 @@
 # Cryptext
 
-AES-256 file/text encryption tool for Windows.
+AES-256 file/text encryption tool.
 
 ## Usage
 
-### File mode — drag & drop or CLI
+### CLI
 
 ```
 Cryptext <file> [options]
 ```
 
-| Argument | Description |
-|---|---|
-| `<file>` | File to encrypt or decrypt |
-| `-key <key>` | Provide a custom encryption/decryption key |
-| `-d` / `-decrypt` | Force decrypt mode |
-| `-e` / `-encrypt` | Force encrypt mode |
+| Argument          | Description                                |
+| ----------------- | ------------------------------------------ |
+| `<file>`          | File to encrypt or decrypt                 |
+| `-key <key>`      | Provide a custom encryption/decryption key |
+| `-d` / `-decrypt` | Force decrypt mode                         |
+| `-e` / `-encrypt` | Force encrypt mode                         |
 
 **Encrypt a file:**
+
 ```
 Cryptext secret.txt
 ```
+
 → Creates `secret.ctx` + prints the key to console.
 
 **Decrypt a `.ctx` / `.ctxt` file:**
+
 ```
 Cryptext secret.ctx
 ```
+
 → Reads the hidden `.cryptext_key` file in the same folder, creates `secret.txt`.
 
 **Decrypt with a specific key:**
+
 ```
 Cryptext secret.ctx -key "yourBase64KeyHere"
 ```
 
 **Decrypt a non-standard file (`.txt` containing ciphertext):**
+
 ```
 Cryptext encrypted.txt -d -key "yourBase64KeyHere"
 ```
 
 **Encrypt with a custom key:**
+
 ```
 Cryptext secret.txt -key "myCustomKey"
 ```

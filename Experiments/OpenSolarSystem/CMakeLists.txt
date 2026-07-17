@@ -62,7 +62,7 @@ else()
 
 endif()
 
-target_sources("${CMAKE_PROJECT_NAME}" PRIVATE ${MY_SOURCES} )
+target_sources("${CMAKE_PROJECT_NAME}" PRIVATE ${MY_SOURCES}  "src/Model/Planet.cpp" "src/Model/Planet.h")
 
 
 if(MSVC) # If using the VS compiler...
