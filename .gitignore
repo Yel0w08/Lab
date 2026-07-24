@@ -6,8 +6,10 @@
 /Website/data.json
 /Experiments/Test
 /Manager/obj
-/Manager/bin
+/bin
 *.exe
 /Experiments/Cryptext/.vs
 /Experiments/Cryptext/bin
 /Experiments/Cryptext/obj
+/Manager.Linux/bin
+/Manager.Linux/obj
