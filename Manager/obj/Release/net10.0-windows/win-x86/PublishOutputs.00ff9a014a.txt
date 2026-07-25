@@ -1,3 +1,0 @@
-E:\Dev\Lab\Manager\bin\Release\net10.0-windows\publish\win-x86\Manager.pdb
-E:\Dev\Lab\Manager\bin\Release\net10.0-windows\publish\win-x86\e_sqlite3.dll
-E:\Dev\Lab\Manager\bin\Release\net10.0-windows\publish\win-x86\Manager.exe
