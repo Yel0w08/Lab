@@ -1,7 +1,7 @@
-prefix=C:/Program Files (x86)/mygame
+prefix=C:/Program Files (x86)/OpenSolarSystem
 exec_prefix=${prefix}
-includedir=C:/Program Files (x86)/mygame/include
-libdir=C:/Program Files (x86)/mygame/lib
+includedir=C:/Program Files (x86)/OpenSolarSystem/include
+libdir=C:/Program Files (x86)/OpenSolarSystem/lib
 
 Name: GLFW
 Description: A multi-platform library for OpenGL, window and input

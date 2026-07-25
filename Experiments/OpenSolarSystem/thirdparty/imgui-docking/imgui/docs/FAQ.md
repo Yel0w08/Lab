@@ -280,8 +280,8 @@ but windows are uniquely identified by their ID. Use "###" to pass a label that 
 Button("Hello###ID");  // Label = "Hello",  ID = hash of (..., "###ID")
 Button("World###ID");  // Label = "World",  ID = hash of (..., "###ID")  // Same ID, different label
 
-sprintf(buf, "My game (%f FPS)###MyGame", fps);
-Begin(buf);            // Variable title,   ID = hash of "MyGame"
+sprintf(buf, "My game (%f FPS)###OpenSolarSystem", fps);
+Begin(buf);            // Variable title,   ID = hash of "OpenSolarSystem"
 ```
 - Solving ID conflict in a more general manner:
 Use `PushID()` / `PopID()` to create scopes and manipulate the ID stack, as to avoid ID conflicts

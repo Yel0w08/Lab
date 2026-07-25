@@ -13,8 +13,8 @@ Planet solarSystem[] = {
 
 const int PLANET_COUNT = 8;
 const float SUN_RADIUS_KM = 700000.0f;
-const float SIZE_SCALE = 1.0f / 5000.0f;
-const float DISTANCE_SCALE = 1.0f / 20000000.0f;
+const float SIZE_SCALE = 1.0f / 50000.0f;
+const float DISTANCE_SCALE = 1.0f / 5000000.0f;
 
 float rotationAngles[PLANET_COUNT] = { 0 };
 float orbitAngles[PLANET_COUNT] = { 0 };
