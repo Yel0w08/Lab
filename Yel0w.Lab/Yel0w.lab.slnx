@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Yel0w.lab.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>

@@ -1,11 +1,80 @@
 ﻿@page "/settings"
 
+@using Yel0w.lab.Services
+
+@inject ExperimentService ExperimentService
+
 <h1>Settings</h1>
 
-<p>This is the Settings page.</p>
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Database</h5>
+        <p class="card-text text-muted">
+            The experiment database is hosted on GitHub and cached locally for faster loading.
+        </p>
 
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-danger" @onclick="ClearCache">
+                Clear Cache
+            </button>
+            <button class="btn btn-outline-primary" @onclick="ForceRefresh">
+                Refresh Database
+            </button>
+        </div>
 
+        @if (!string.IsNullOrEmpty(statusMessage))
+        {
+            <div class="alert @statusClass mt-3 mb-0">@statusMessage</div>
+        }
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">About</h5>
+        <p class="card-text text-muted mb-1">Yel0w.Lab Manager</p>
+        <p class="card-text text-muted mb-0">Experiment management and launcher.</p>
+    </div>
+</div>
 
 @code {
-    
+
+    private string? statusMessage;
+    private string statusClass = "alert-info";
+
+    private async Task ClearCache()
+    {
+        try
+        {
+            var cacheDir = FileSystem.CacheDirectory;
+            var dbPath = Path.Combine(cacheDir, "LabManager.db");
+
+            if (File.Exists(dbPath))
+                File.Delete(dbPath);
+
+            statusMessage = "Cache cleared. Database will be re-downloaded on next load.";
+            statusClass = "alert-success";
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Failed to clear cache: {ex.Message}";
+            statusClass = "alert-danger";
+        }
+    }
+
+    private async Task ForceRefresh()
+    {
+        try
+        {
+            var experiments = await ExperimentService.GetExperimentsAsync(forceRefresh: true);
+            statusMessage = $"Database refreshed. {experiments.Count} experiments loaded.";
+            statusClass = "alert-success";
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Failed to refresh: {ex.Message}";
+            statusClass = "alert-danger";
+        }
+    }
+
 }

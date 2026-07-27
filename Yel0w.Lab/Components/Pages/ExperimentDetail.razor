@@ -1,0 +1,199 @@
+@page "/experiment/{Id:int}"
+
+@using Yel0w.lab.Models
+@using Yel0w.lab.Services
+
+@inject ExperimentService ExperimentService
+@inject NavigationManager Navigation
+
+@if (loading)
+{
+    <p>Loading...</p>
+}
+else if (experiment is null)
+{
+    <div class="alert alert-warning">
+        Experiment not found.
+    </div>
+    <button class="btn btn-secondary" @onclick="GoBack">← Back</button>
+}
+else
+{
+    <button class="btn btn-secondary mb-3" @onclick="GoBack">← Back</button>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-start">
+                <h2>@experiment.Name</h2>
+
+                @if (experiment.Favorite)
+                {
+                    <span class="badge bg-warning text-dark">★ Favorite</span>
+                }
+            </div>
+
+            <p class="mt-2">@experiment.Description</p>
+
+            <div class="mb-3">
+                <small class="text-muted">
+                    @experiment.Language
+                    @if (!string.IsNullOrWhiteSpace(experiment.Framework))
+                    {
+                        <span> • @experiment.Framework</span>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(experiment.Engine))
+                    {
+                        <span> • @experiment.Engine</span>
+                    }
+                </small>
+            </div>
+
+            <div class="mb-3">
+                <span class="badge bg-secondary me-2">@experiment.Status</span>
+                @if (!string.IsNullOrWhiteSpace(experiment.Tags))
+                {
+                    @foreach (var tag in experiment.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        <span class="badge bg-info text-dark me-1">@tag.Trim()</span>
+                    }
+                }
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(experiment.Notes))
+            {
+                <div class="mb-3">
+                    <h5>Notes</h5>
+                    <p>@experiment.Notes</p>
+                </div>
+            }
+
+            <div class="mb-3">
+                <small class="text-muted">
+                    Created: @experiment.CreatedAt.ToString("g")
+                    &nbsp;|&nbsp;
+                    Last modified: @experiment.LastModified.ToString("g")
+                </small>
+            </div>
+
+            <hr />
+
+            <div class="d-flex gap-2">
+                @if (!experiment.Downloadable)
+                {
+                    <span class="text-muted align-self-center">Not available for download</span>
+                }
+                else if (isDownloaded)
+                {
+                    <button class="btn btn-success" @onclick="RunExperiment">
+                        ▶ Run
+                    </button>
+                }
+                else if (isDownloading)
+                {
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="progress flex-grow-1" style="width:200px;">
+                            <div class="progress-bar" style="width:@downloadProgress.ToString("F0")%"></div>
+                        </div>
+                        <span>@downloadProgress.ToString("F0")%</span>
+                    </div>
+                }
+                else
+                {
+                    <button class="btn btn-primary" @onclick="DownloadExperiment">
+                        ⬇ Download
+                    </button>
+                }
+            </div>
+
+            @if (!string.IsNullOrEmpty(statusMessage))
+            {
+                <div class="alert alert-danger mt-3">@statusMessage</div>
+            }
+
+        </div>
+    </div>
+}
+
+@code {
+
+    [Parameter] public int Id { get; set; }
+
+    private Experiment? experiment;
+    private bool loading = true;
+    private bool isDownloaded;
+    private bool isDownloading;
+    private double downloadProgress;
+    private string? statusMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            experiment = await ExperimentService.GetExperimentByIdAsync(Id);
+
+            if (experiment is not null && experiment.Downloadable)
+            {
+                isDownloaded = ExperimentService.IsDownloaded(experiment.ProjectPath);
+            }
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Failed to load experiment: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task DownloadExperiment()
+    {
+        if (experiment is null) return;
+
+        isDownloading = true;
+        statusMessage = null;
+        StateHasChanged();
+
+        try
+        {
+            await ExperimentService.DownloadExperimentAsync(
+                experiment.ProjectPath,
+                progress =>
+                {
+                    downloadProgress = progress;
+                    InvokeAsync(StateHasChanged);
+                });
+
+            isDownloaded = true;
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Download failed: {ex.Message}";
+        }
+        finally
+        {
+            isDownloading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void RunExperiment()
+    {
+        if (experiment is null) return;
+
+        try
+        {
+            ExperimentService.RunExperiment(experiment.ProjectPath);
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Failed to run: {ex.Message}";
+        }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/experiments");
+    }
+}
