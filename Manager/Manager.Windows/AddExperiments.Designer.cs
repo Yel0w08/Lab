@@ -35,6 +35,8 @@
             EngineTextBox = new TextBox();
             ProjectPathLabel = new Label();
             ProjectPathTextBox = new TextBox();
+            DownloadableLabel = new Label();
+            DownloadableCheckBox = new CheckBox();
             SuspendLayout();
             // 
             // ExperminmentName
@@ -207,12 +209,33 @@
             ProjectPathTextBox.Name = "ProjectPathTextBox";
             ProjectPathTextBox.Size = new Size(186, 23);
             ProjectPathTextBox.TabIndex = 19;
-            // 
+            //
+            // DownloadableLabel
+            //
+            DownloadableLabel.AutoSize = true;
+            DownloadableLabel.Location = new Point(196, 308);
+            DownloadableLabel.Name = "DownloadableLabel";
+            DownloadableLabel.Size = new Size(78, 15);
+            DownloadableLabel.TabIndex = 22;
+            DownloadableLabel.Text = "Downloadable";
+            //
+            // DownloadableCheckBox
+            //
+            DownloadableCheckBox.AutoSize = true;
+            DownloadableCheckBox.Location = new Point(4, 308);
+            DownloadableCheckBox.Name = "DownloadableCheckBox";
+            DownloadableCheckBox.Size = new Size(83, 19);
+            DownloadableCheckBox.TabIndex = 21;
+            DownloadableCheckBox.Text = "Downloadable";
+            DownloadableCheckBox.UseVisualStyleBackColor = true;
+            //
             // AddExperiments
-            // 
+            //
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(300, 450);
+            Controls.Add(DownloadableCheckBox);
+            Controls.Add(DownloadableLabel);
             Controls.Add(ProjectPathLabel);
             Controls.Add(ProjectPathTextBox);
             Controls.Add(EngineLabel);
@@ -264,5 +287,7 @@
         private TextBox EngineTextBox;
         private Label ProjectPathLabel;
         private TextBox ProjectPathTextBox;
+        private Label DownloadableLabel;
+        private CheckBox DownloadableCheckBox;
     }
 }

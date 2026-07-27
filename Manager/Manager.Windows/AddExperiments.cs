@@ -33,6 +33,7 @@ public partial class AddExperiments : Form
         NotesTextBox.Text = Experiment.Notes;
         EngineTextBox.Text = Experiment.Engine;
         ProjectPathTextBox.Text = Experiment.ProjectPath;
+        DownloadableCheckBox.Checked = Experiment.Downloadable;
 
 
         Text = "Edit Experiment";
@@ -59,7 +60,8 @@ public partial class AddExperiments : Form
             .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             .ToList();
         Experiment.Notes = NotesTextBox.Text.Trim();
- 
+        Experiment.Downloadable = DownloadableCheckBox.Checked;
+
 
         DialogResult = DialogResult.OK;
         Close();

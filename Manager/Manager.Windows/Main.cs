@@ -78,6 +78,14 @@ public partial class Main : Form
             AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         });
 
+        experimentGrid.Columns.Add(new DataGridViewCheckBoxColumn
+        {
+            Name = "Downloadable",
+            HeaderText = "\u2B07",
+            Width = 40,
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+        });
+
         experimentGrid.Columns.Add(new DataGridViewTextBoxColumn
         {
             Name = "LastModified",
@@ -151,6 +159,7 @@ public partial class Main : Form
                 exp.Framework,
                 exp.Engine,
                 string.Join(", ", exp.Tags),
+                exp.Downloadable,
                 exp.LastModified.ToString("g")
             );
 

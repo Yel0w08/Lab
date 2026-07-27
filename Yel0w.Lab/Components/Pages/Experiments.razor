@@ -1,0 +1,92 @@
+﻿@page "/experiments"
+
+@using Yel0w.lab.Models
+@using Yel0w.lab.Services
+
+@inject ExperimentService ExperimentService
+
+<h1>Experiments</h1>
+
+@if (errorMessage is not null)
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+else if (experiments is null)
+{
+    <p>Loading...</p>
+}
+else if (experiments.Count == 0)
+{
+    <p>No experiments found.</p>
+}
+else
+{
+    @foreach (var experiment in experiments)
+    {
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <h4>@experiment.Name</h4>
+
+                    @if (experiment.Favorite)
+                    {
+                        <span class="badge bg-warning text-dark">
+                            ★ Favorite
+                        </span>
+                    }
+
+                </div>
+
+                <p>@experiment.Description</p>
+
+                <small class="text-muted">
+                    @experiment.Language
+                    @if (!string.IsNullOrWhiteSpace(experiment.Framework))
+                    {
+                        <span> • @experiment.Framework</span>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(experiment.Engine))
+                    {
+                        <span> • @experiment.Engine</span>
+                    }
+                </small>
+
+                <br />
+
+                <span class="badge bg-secondary mt-2">
+                    @experiment.Status
+                </span>
+
+                <div class="mt-3">
+                    <button class="btn btn-primary">
+                        View Details
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    }
+}
+
+@code {
+
+    private List<Experiment>? experiments;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            experiments = await ExperimentService.GetExperimentsAsync();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Failed to load experiments: {ex.Message}";
+        }
+    }
+
+}

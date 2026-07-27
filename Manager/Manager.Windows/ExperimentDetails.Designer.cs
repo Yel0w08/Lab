@@ -37,6 +37,8 @@ namespace Manager
             ModifiedValue = new Label();
             FavoriteLabel = new Label();
             FavoriteValue = new Label();
+            DownloadableLabel = new Label();
+            DownloadableValue = new Label();
             CloseBtn = new Button();
             SuspendLayout();
 
@@ -181,6 +183,17 @@ namespace Manager
             FavoriteValue.Size = new Size(formWidth - valueX - 20, rowHeight);
             FavoriteValue.TextAlign = ContentAlignment.MiddleLeft;
 
+            // Downloadable
+            DownloadableLabel.Location = new Point(12, startY += rowHeight);
+            DownloadableLabel.Size = new Size(labelWidth, rowHeight);
+            DownloadableLabel.Text = "Downloadable:";
+            DownloadableLabel.TextAlign = ContentAlignment.MiddleRight;
+            DownloadableLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+            DownloadableValue.Location = new Point(valueX, startY);
+            DownloadableValue.Size = new Size(formWidth - valueX - 20, rowHeight);
+            DownloadableValue.TextAlign = ContentAlignment.MiddleLeft;
+
             // Close button
             CloseBtn.Location = new Point((formWidth - 75) / 2, startY += 40);
             CloseBtn.Size = new Size(75, 23);
@@ -200,6 +213,7 @@ namespace Manager
             Text = "Experiment Details";
 
             Controls.Add(CloseBtn);
+            Controls.Add(DownloadableLabel); Controls.Add(DownloadableValue);
             Controls.Add(FavoriteLabel); Controls.Add(FavoriteValue);
             Controls.Add(ModifiedLabel); Controls.Add(ModifiedValue);
             Controls.Add(CreatedLabel); Controls.Add(CreatedValue);
@@ -229,6 +243,7 @@ namespace Manager
         private Label CreatedLabel; private Label CreatedValue;
         private Label ModifiedLabel; private Label ModifiedValue;
         private Label FavoriteLabel; private Label FavoriteValue;
+        private Label DownloadableLabel; private Label DownloadableValue;
         private Button CloseBtn;
     }
 }

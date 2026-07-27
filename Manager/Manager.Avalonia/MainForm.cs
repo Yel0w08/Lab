@@ -59,6 +59,7 @@ public class MainForm : Window
         _grid.Columns.Add(new DataGridTextColumn { Header = "Language", Binding = new Avalonia.Data.Binding("Language"), Width = new DataGridLength(80) });
         _grid.Columns.Add(new DataGridTextColumn { Header = "Framework", Binding = new Avalonia.Data.Binding("Framework"), Width = new DataGridLength(80) });
         _grid.Columns.Add(new DataGridTextColumn { Header = "Engine", Binding = new Avalonia.Data.Binding("Engine"), Width = new DataGridLength(80) });
+        _grid.Columns.Add(new DataGridCheckBoxColumn { Header = "\u2B07", Binding = new Avalonia.Data.Binding("Downloadable"), Width = new DataGridLength(40) });
         _grid.Columns.Add(new DataGridTextColumn { Header = "Tags", Binding = new Avalonia.Data.Binding("TagsDisplay"), Width = new DataGridLength(100) });
         _grid.Columns.Add(new DataGridTextColumn { Header = "Modified", Binding = new Avalonia.Data.Binding("LastModifiedDisplay"), Width = new DataGridLength(120) });
 
@@ -295,6 +296,7 @@ public class ExperimentDisplay
     public string Framework { get; set; } = "";
     public string Engine { get; set; } = "";
     public string TagsDisplay { get; set; } = "";
+    public bool Downloadable { get; set; }
     public string LastModifiedDisplay { get; set; } = "";
 
     public ExperimentDisplay(Experiment e)
@@ -315,6 +317,7 @@ public class ExperimentDisplay
         Framework = e.Framework;
         Engine = e.Engine;
         TagsDisplay = string.Join(", ", e.Tags);
+        Downloadable = e.Downloadable;
         LastModifiedDisplay = e.LastModified.ToString("g");
     }
 }

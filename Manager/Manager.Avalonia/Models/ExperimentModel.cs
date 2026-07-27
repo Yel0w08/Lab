@@ -17,6 +17,7 @@ public class Experiment
 
     public List<string> Tags { get; set; } = [];
     public bool Favorite { get; set; } = false;
+    public bool Downloadable { get; set; } = false;
 
     public string Notes { get; set; } = "";
 

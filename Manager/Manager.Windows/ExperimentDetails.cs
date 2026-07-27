@@ -24,6 +24,7 @@ public partial class ExperimentDetails : Form
         CreatedValue.Text = exp.CreatedAt.ToString("g");
         ModifiedValue.Text = exp.LastModified.ToString("g");
         FavoriteValue.Text = exp.Favorite ? "Yes" : "No";
+        DownloadableValue.Text = exp.Downloadable ? "Yes" : "No";
 
         Text = $"Experiment #{exp.Id} - {exp.Name}";
 

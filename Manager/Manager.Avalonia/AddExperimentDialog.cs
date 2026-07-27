@@ -18,13 +18,15 @@ public class AddExperimentDialog : Window
     private readonly TextBox _tagsTextBox;
     private readonly TextBox _notesTextBox;
     private readonly TextBox _projectPathTextBox;
+    private readonly CheckBox _downloadableCheckBox;
 
     public AddExperimentDialog()
     {
         Experiment = new Experiment();
         Title = "Add Experiment";
         (_nameTextBox, _descriptionTextBox, _languageTextBox, _frameworkTextBox,
-         _engineTextBox, _statusCombo, _tagsTextBox, _notesTextBox, _projectPathTextBox) = BuildUI();
+         _engineTextBox, _statusCombo, _tagsTextBox, _notesTextBox, _projectPathTextBox,
+         _downloadableCheckBox) = BuildUI();
     }
 
     public AddExperimentDialog(Experiment experiment)
@@ -32,11 +34,12 @@ public class AddExperimentDialog : Window
         Experiment = experiment;
         Title = "Edit Experiment";
         (_nameTextBox, _descriptionTextBox, _languageTextBox, _frameworkTextBox,
-         _engineTextBox, _statusCombo, _tagsTextBox, _notesTextBox, _projectPathTextBox) = BuildUI();
+         _engineTextBox, _statusCombo, _tagsTextBox, _notesTextBox, _projectPathTextBox,
+         _downloadableCheckBox) = BuildUI();
         LoadExperimentData();
     }
 
-    private (TextBox, TextBox, TextBox, TextBox, TextBox, ComboBox, TextBox, TextBox, TextBox) BuildUI()
+    private (TextBox, TextBox, TextBox, TextBox, TextBox, ComboBox, TextBox, TextBox, TextBox, CheckBox) BuildUI()
     {
         Width = 320;
         Height = 480;
@@ -52,6 +55,7 @@ public class AddExperimentDialog : Window
         var tagsBox = new TextBox();
         var notesBox = new TextBox();
         var pathBox = new TextBox();
+        var downloadableBox = new CheckBox { Content = "Downloadable" };
 
         var saveButton = new Button { Content = "Save", Width = 80, HorizontalAlignment = HorizontalAlignment.Center };
         var cancelButton = new Button { Content = "Cancel", Width = 80, HorizontalAlignment = HorizontalAlignment.Center };
@@ -73,6 +77,7 @@ public class AddExperimentDialog : Window
                 MakeRow("Tags", tagsBox),
                 MakeRow("Notes", notesBox),
                 MakeRow("Project Path", pathBox),
+                downloadableBox,
             }
         };
 
@@ -90,7 +95,7 @@ public class AddExperimentDialog : Window
             Children = { fields, buttonBar }
         };
 
-        return (nameBox, descBox, langBox, fwBox, engineBox, statusCombo, tagsBox, notesBox, pathBox);
+        return (nameBox, descBox, langBox, fwBox, engineBox, statusCombo, tagsBox, notesBox, pathBox, downloadableBox);
     }
 
     private static StackPanel MakeRow(string label, Control control)
@@ -118,6 +123,7 @@ public class AddExperimentDialog : Window
         _tagsTextBox.Text = string.Join(", ", Experiment.Tags);
         _notesTextBox.Text = Experiment.Notes;
         _projectPathTextBox.Text = Experiment.ProjectPath;
+        _downloadableCheckBox.IsChecked = Experiment.Downloadable;
     }
 
     private async void Save()
@@ -141,6 +147,7 @@ public class AddExperimentDialog : Window
             .ToList();
         Experiment.Notes = _notesTextBox.Text?.Trim() ?? "";
         Experiment.ProjectPath = _projectPathTextBox.Text?.Trim() ?? "";
+        Experiment.Downloadable = _downloadableCheckBox.IsChecked == true;
 
         Close(true);
     }

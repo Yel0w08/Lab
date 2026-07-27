@@ -32,6 +32,7 @@ public class ExperimentDetailsDialog : Window
                 MakeRow("Created:", experiment.CreatedAt.ToString("g"), false),
                 MakeRow("Modified:", experiment.LastModified.ToString("g"), false),
                 MakeRow("Favorite:", experiment.Favorite ? "Yes" : "No", experiment.Favorite),
+                MakeRow("Downloadable:", experiment.Downloadable ? "Yes" : "No", experiment.Downloadable),
             }
         };
 
