@@ -198,7 +198,9 @@ public partial class Main : Form
     private void ExperimentGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
     {
         if (_isUpdatingGrid || e.RowIndex < 0) return;
-        if (experimentGrid.Columns[e.ColumnIndex].Name != "Favorite") return;
+
+        var colName = experimentGrid.Columns[e.ColumnIndex].Name;
+        if (colName != "Favorite" && colName != "Downloadable") return;
 
         var id = experimentGrid.Rows[e.RowIndex].Tag as int?;
         if (id is null) return;
@@ -206,8 +208,11 @@ public partial class Main : Form
         var experiment = _experimentService.GetById(id.Value);
         if (experiment is null) return;
 
-        if (experimentGrid.Rows[e.RowIndex].Cells["Favorite"].Value is bool fav)
+        if (colName == "Favorite" && experimentGrid.Rows[e.RowIndex].Cells["Favorite"].Value is bool fav)
             experiment.Favorite = fav;
+
+        if (colName == "Downloadable" && experimentGrid.Rows[e.RowIndex].Cells["Downloadable"].Value is bool dl)
+            experiment.Downloadable = dl;
 
         _experimentService.Update(experiment);
         LoadExperiments();

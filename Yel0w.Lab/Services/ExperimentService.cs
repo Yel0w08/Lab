@@ -51,6 +51,7 @@ public class ExperimentService
                     ProjectPath,
                     Tags,
                     Favorite,
+                    Downloadable,
                     Notes,
                     CreatedAt,
                     LastModified
@@ -74,9 +75,10 @@ public class ExperimentService
                     ProjectPath = reader.IsDBNull(7) ? "" : reader.GetString(7),
                     Tags = reader.IsDBNull(8) ? "" : reader.GetString(8),
                     Favorite = !reader.IsDBNull(9) && reader.GetBoolean(9),
-                    Notes = reader.IsDBNull(10) ? "" : reader.GetString(10),
-                    CreatedAt = reader.IsDBNull(11) ? DateTime.MinValue : reader.GetDateTime(11),
-                    LastModified = reader.IsDBNull(12) ? DateTime.MinValue : reader.GetDateTime(12)
+                    Downloadable = !reader.IsDBNull(10) && reader.GetBoolean(10),
+                    Notes = reader.IsDBNull(11) ? "" : reader.GetString(11),
+                    CreatedAt = reader.IsDBNull(12) ? DateTime.MinValue : reader.GetDateTime(12),
+                    LastModified = reader.IsDBNull(13) ? DateTime.MinValue : reader.GetDateTime(13)
                 });
             }
         }
