@@ -14,3 +14,10 @@
 /Manager.Linux/bin
 /Manager.Linux/obj
 /Manager/bin
+/Manager/Manager.Avalonia/bin/Debug
+/Manager/Manager.Avalonia/bin
+/Manager/Manager.Avalonia/obj
+/Manager/Manager.Windows/bin
+/Manager/Manager.Avalonia/.vs
+/Manager/Manager.Windows/.vs
+/Manager/Manager.Windows/obj
