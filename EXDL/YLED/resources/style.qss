@@ -1,0 +1,362 @@
+/* ============================================================
+   YLED — sharp, square, pro black / white / yellow theme
+   No rounded corners, hairline borders, yellow as a restrained accent.
+   ============================================================ */
+
+* {
+    font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+}
+
+QWidget {
+    color: #FFFFFF;
+}
+
+QMainWindow,
+QWidget#root {
+    background: #000000;
+}
+
+QToolTip {
+    background: #0A0A0A;
+    color: #FFFFFF;
+    border: 1px solid #FFD400;
+    padding: 4px 6px;
+}
+
+/* ---------------- Sidebar navigation ---------------- */
+QWidget#navBar {
+    background: #050505;
+    border-right: 1px solid #202020;
+}
+
+QLabel#brand {
+    color: #FFFFFF;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 6px;
+}
+
+QLabel#brandSub {
+    color: #8A8A8A;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+QLabel#navFooter {
+    color: #6E6E6E;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+QPushButton#navBtn {
+    background: transparent;
+    border: none;
+    border-left: 3px solid transparent;
+    color: #B8B8B8;
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+QPushButton#navBtn:hover {
+    background: #101010;
+    color: #FFFFFF;
+}
+
+QPushButton#navBtn:checked {
+    background: #0E0E0E;
+    border-left: 3px solid #FFD400;
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+QPushButton#link {
+    background: transparent;
+    border: none;
+    color: #8A8A8A;
+    text-align: left;
+    padding: 2px 0 0 0;
+    font-size: 12px;
+}
+
+QPushButton#link:hover {
+    color: #FFD400;
+}
+
+/* ---------------- Typography ---------------- */
+QLabel#h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: 4px;
+}
+
+QLabel#lead {
+    font-size: 14px;
+    color: #9A9A9A;
+}
+
+QLabel#expName {
+    font-size: 16px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+}
+
+QLabel#expDesc {
+    color: #B0B0B0;
+    font-size: 13px;
+}
+
+QLabel#meta {
+    color: #8A8A8A;
+    font-size: 12px;
+}
+
+QLabel#mono {
+    font-family: "JetBrains Mono", "Consolas", "DejaVu Sans Mono", monospace;
+    color: #D8D8D8;
+    font-size: 12px;
+    background: #0E0E0E;
+    border: 1px solid #202020;
+    padding: 6px 8px;
+}
+
+QLabel#secTitle {
+    font-size: 13px;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: 3px;
+}
+
+QLabel#cardSub {
+    color: #9A9A9A;
+    font-size: 12px;
+}
+
+/* ---------------- Panels & cards ---------------- */
+QFrame#panel,
+QFrame#card {
+    background: #0A0A0A;
+    border: 1px solid #202020;
+    border-radius: 0;
+}
+
+QFrame#card:hover {
+    border: 1px solid #4A4A4A;
+}
+
+QFrame#sep {
+    color: #202020;
+    background: #202020;
+    max-height: 1px;
+    border: none;
+}
+
+/* ---------------- Buttons ---------------- */
+QPushButton#btnPrimary {
+    background: #FFD400;
+    color: #000000;
+    font-weight: 800;
+    border: 1px solid #FFD400;
+    border-radius: 0;
+    padding: 9px 20px;
+    letter-spacing: 1px;
+}
+
+QPushButton#btnPrimary:hover {
+    background: #FFE54D;
+    border: 1px solid #FFE54D;
+}
+
+QPushButton#btnPrimary:pressed {
+    background: #E6C000;
+}
+
+QPushButton#btnSecondary {
+    background: transparent;
+    color: #DADADA;
+    border: 1px solid #3A3A3A;
+    border-radius: 0;
+    padding: 9px 16px;
+}
+
+QPushButton#btnSecondary:hover {
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+}
+
+QPushButton#btnRun {
+    background: transparent;
+    color: #2ED573;
+    border: 1px solid #2ED573;
+    border-radius: 0;
+    padding: 9px 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+QPushButton#btnRun:hover {
+    background: #2ED573;
+    color: #000000;
+}
+
+QPushButton#btnDanger {
+    background: transparent;
+    color: #FF6B6B;
+    border: 1px solid #5C2A2A;
+    border-radius: 0;
+    padding: 9px 16px;
+}
+
+QPushButton#btnDanger:hover {
+    background: #2A0E0E;
+    border: 1px solid #FF3B3B;
+}
+
+/* ---------------- Icon button (download / run) ---------------- */
+QToolButton#iconBtn {
+    background: transparent;
+    border: 1px solid #3A3A3A;
+    border-radius: 0;
+}
+
+QToolButton#iconBtn:hover {
+    border: 1px solid #FFD400;
+    background: #101010;
+}
+
+QToolButton#iconBtn:pressed {
+    background: #1A1A1A;
+}
+
+QToolButton#iconBtn:disabled {
+    border: 1px dashed #3A3A3A;
+    background: transparent;
+}
+
+/* ---------------- Badges ---------------- */
+QLabel#badge,
+QLabel#badgeStatus {
+    background: transparent;
+    border: 1px solid #3A3A3A;
+    border-radius: 0;
+    padding: 3px 10px;
+    color: #DADADA;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+QLabel#badgeFav {
+    background: #FFD400;
+    color: #000000;
+    border: 1px solid #FFD400;
+    border-radius: 0;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+QLabel#badgeTag {
+    background: transparent;
+    color: #9A9A9A;
+    border: 1px solid #2A2A2A;
+    border-radius: 0;
+    padding: 3px 9px;
+    font-size: 11px;
+}
+
+/* ---------------- Status text ---------------- */
+QLabel#statusError,
+QLabel[kind="error"] {
+    color: #FF6B6B;
+}
+
+QLabel#statusSuccess,
+QLabel[kind="success"] {
+    color: #2ED573;
+}
+
+QLabel#statusInfo,
+QLabel[kind="info"] {
+    color: #8A8A8A;
+}
+
+/* ---------------- Scroll areas ---------------- */
+QScrollArea {
+    background: transparent;
+    border: none;
+}
+
+QScrollArea > QWidget > QWidget,
+QWidget#listHost {
+    background: transparent;
+}
+
+QScrollBar:vertical {
+    background: #050505;
+    width: 10px;
+    margin: 0;
+    border: none;
+}
+
+QScrollBar::handle:vertical {
+    background: #2E2E2E;
+    border-radius: 0;
+    min-height: 30px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #FFD400;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    height: 0;
+}
+
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+    background: transparent;
+}
+
+/* ---------------- Progress bar ---------------- */
+QProgressBar {
+    background: #101010;
+    border: 1px solid #2A2A2A;
+    border-radius: 0;
+    height: 16px;
+    text-align: center;
+    color: #000000;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+QProgressBar::chunk {
+    background: #FFD400;
+    border-radius: 0;
+}
+
+/* Thin inline progress bar on the experiment tiles. */
+QProgressBar#tileProgress {
+    height: 4px;
+    min-height: 4px;
+    max-height: 4px;
+    border: none;
+    border-radius: 0;
+    background: #101010;
+}
+
+QProgressBar#tileProgress::chunk {
+    border-radius: 0;
+    background: #FFD400;
+}
+
+/* ---------------- Page stack transparency ---------------- */
+QStackedWidget#mainStack,
+QStackedWidget#mainStack > QWidget,
+QWidget#page {
+    background: transparent;
+}

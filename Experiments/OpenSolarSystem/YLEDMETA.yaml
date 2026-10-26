@@ -1,0 +1,24 @@
+# YLEDMETA.yaml — YLED experiment manifest.
+# Platform keys: windows, linux, macos, ALL. Every section is optional.
+# See YLED/README.MD for the full schema.
+
+init:
+  windows: ""
+  linux: ""
+  macos: ""
+
+run:
+  windows: "run.bat"
+  linux: "./run.sh"
+  macos: "./run.sh"
+
+dl:
+  Info:
+    USETGZ: false
+    USEGITDIR: true
+  link-tgz:
+    windows: ""
+    linux: ""
+    macos: ""
+  link-git-dir:
+    ALL: "https://github.com/Yel0w08/Lab/tree/main/Experiments/OpenSolarSystem"
