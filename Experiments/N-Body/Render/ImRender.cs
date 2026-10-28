@@ -57,7 +57,7 @@ namespace N_Body.Render
 
 
             var options = WindowOptions.Default;
-            options.Size = new Silk.NET.Maths.Vector2D<int>(800, 600);
+            options.Size = new Silk.NET.Maths.Vector2D<int>(1920, 1080);
             options.Title = "N-Body";
             options.PreferredDepthBufferBits = 24;
 
